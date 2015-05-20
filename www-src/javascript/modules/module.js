@@ -6,4 +6,4 @@ var test = {
 };
 var template = _.template(html);
 
-console.log(template(test));
+document.write(template(test));
