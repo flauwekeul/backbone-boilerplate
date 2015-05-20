@@ -10,7 +10,18 @@ var gulp = require('gulp'),
     nodemon = require('gulp-nodemon'),
     buffer = require('vinyl-buffer'),
     sourcemaps = require('gulp-sourcemaps'),
+    gutil = require('gulp-util'),
     p = require('partialify');
+
+
+function handleError(level, error) {
+   gutil.log(error.message);
+   process.exit(1);
+}
+
+// Convenience handler for error-level errors.
+function onError(error) { handleError.call(this, 'error', error);}
+
 
 gulp.task('clean', function() {
   del(['www/css', 'www/javascript']);
@@ -34,6 +45,7 @@ gulp.task('browserify', function() {
 
     return b.transform(p)
         .bundle()
+        .on('error', onError)
         .pipe(source('main.js'))
         .pipe(buffer())
         .pipe(sourcemaps.init({loadMaps: true}))
