@@ -4,14 +4,13 @@ var gulp = require('gulp'),
     sass = require('gulp-ruby-sass'),
     autoprefixer = require('gulp-autoprefixer'),
     minifycss = require('gulp-minify-css'),
+    uglify = require('gulp-uglify'),
     rename = require('gulp-rename'),
     del = require('del'),
-    nodemon = require('nodemon'),
-    uglify = require('gulp-uglify'),
-    rjs = require('gulp-requirejs'),
-    jshint = require('gulp-jshint'),
-
-    cordova = require('cordova-lib').cordova.raw; // promises API
+    nodemon = require('gulp-nodemon'),
+    buffer = require('vinyl-buffer'),
+    sourcemaps = require('gulp-sourcemaps'),
+    p = require('partialify');
 
 gulp.task('clean', function() {
   del(['www/css', 'www/javascript']);
@@ -26,47 +25,44 @@ gulp.task('styles', function() {
     .pipe(gulp.dest('www/css'));
 });
 
+
 gulp.task('browserify', function() {
-    return browserify('./www-src/javascript/main.js')
+    var b = browserify({
+        entries: './www-src/javascript/main.js',
+        debug: true
+    });
+
+    return b.transform(p)
         .bundle()
-        //Pass desired output filename to vinyl-source-stream
         .pipe(source('main.js'))
-        // Start piping stream to tasks!
+        .pipe(buffer())
+        .pipe(sourcemaps.init({loadMaps: true}))
+        .pipe(uglify())
+        .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('./www/'));
 });
+gulp.task( 'html', function(){
+    gulp.src( 'www-src/index.html' )
+        .pipe( gulp.dest( 'www/' ) )
+} );
 
-//
-//gulp.task('scripts', function() {
-//  return gulp.src('www-src/javascript/**/*.js')
-//    .pipe(jshint('.jshintrc'))
-//    .pipe(jshint.reporter('default')
-//    .pipe(gulp.dest('www/javascript/')) // pipe it to the output DIR
-//    .pipe(rename({suffix: '.min'}))
-//    .pipe(uglify())
-//    .pipe(gulp.dest('www/javascript'))
-//});
-
-
-gulp.task('default', ['clean','styles','browserify','prepare','connect'], function() {
+gulp.task('default', ['clean','styles','browserify','connect'], function() {
 
   // Watch .scss files
-  gulp.watch('www-src/sass/**/*.scss', ['styles','prepare']);
+  gulp.watch('www-src/sass/**/*.scss', ['styles']);
 
   // Watch .js files
-  gulp.watch('www-src/javascript/**/*.js', ['browserify','prepare']);
+  gulp.watch('www-src/javascript/**/*.js', ['browserify']);
 
-});
-gulp.task('prepare', function() {
-    return cordova.prepare();
-});
-gulp.task('build', ['clean','styles','browserify'], function() {
-    return cordova.build();
+  // Watch .html files
+  gulp.watch('www-src/**/*.html', ['html']);
+
 });
 
 gulp.task('connect', function() {
     nodemon({
         script: './server/server.js',
-        ext: 'js html scss css',
+        ext: 'js html scss css map',
         env: { 'NODE_ENV': 'development' }
     })
 });
