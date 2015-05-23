@@ -49,7 +49,6 @@ gulp.task('browserify', function() {
         .pipe(source('main.js'))
         .pipe(buffer())
         .pipe(sourcemaps.init({loadMaps: true}))
-        .pipe(uglify())
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('./www/'));
 });
@@ -58,7 +57,7 @@ gulp.task( 'html', function(){
         .pipe( gulp.dest( 'www/' ) )
 } );
 
-gulp.task('default', ['clean','styles','browserify','connect'], function() {
+gulp.task('default', ['clean','html','styles','browserify','connect'], function() {
 
   // Watch .scss files
   gulp.watch('www-src/sass/**/*.scss', ['styles']);
@@ -67,7 +66,7 @@ gulp.task('default', ['clean','styles','browserify','connect'], function() {
   gulp.watch('www-src/javascript/**/*.js', ['browserify']);
 
   // Watch .html files
-  gulp.watch('www-src/**/*.html', ['html']);
+  gulp.watch('www-src/**/*.html', ['html', 'browserify']);
 
 });
 

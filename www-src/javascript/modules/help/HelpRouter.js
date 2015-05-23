@@ -1,8 +1,7 @@
 var _ = require('underscore');
-var BaseRouter = require('../base/BaseRouter.js');
+var BaseRouter = require('../../base/BaseRouter.js');
 var Help = require('./Help.js');
 var HelpView = require('./HelpView.js');
-var LayoutView = require('./layout/LayoutView.js');
 
 var HelpRouter = BaseRouter.extend({
 
@@ -15,19 +14,14 @@ var HelpRouter = BaseRouter.extend({
     },
 
     help: function () {
-        this.showPage("layout", function () {
+        this.showPage("help", function () {
             var help = new Help();
             var helpView = new HelpView({
                 model: help,
                 id : "help"
             });
+            helpView.render();
 
-            var view = new LayoutView({
-                el : '#layout'
-            });
-            view.render();
-
-            view.addSubView(helpView);
         });
     }
 });

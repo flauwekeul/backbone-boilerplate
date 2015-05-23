@@ -1,0 +1,27 @@
+#start {
+  .tiles {
+    list-style:none;
+    margin:0;
+    overflow:hidden;
+    padding:0;
+
+    .tile {
+      border: 1px solid $TileBorderColor;
+      float:left;
+
+      width: 24%;
+      height: 0;
+      padding-bottom: 24%;
+
+      & + .tile {
+        border-left-width:0;
+      }
+      &:nth-child(1n+5) {
+        border-top:0;
+      }
+      &:nth-child(5n) {
+        border-left-width:1px;
+      }
+    }
+  }
+}

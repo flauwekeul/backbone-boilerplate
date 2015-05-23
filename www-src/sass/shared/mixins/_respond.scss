@@ -1,0 +1,15 @@
+@mixin respond($media) {
+  @if $media == portrait {
+    html.orient-portrait & {
+      @content;
+    }
+  } @else if $media == landscape {
+    html.orient-landscape & {
+      @content;
+    }
+  } @else {
+    html & {
+      @content;
+    }
+  }
+}

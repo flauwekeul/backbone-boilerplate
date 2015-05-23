@@ -1,0 +1,39 @@
+html {
+  font-size:$BaseFontSize;
+}
+
+.page {
+  display:none;
+  padding:$PagePadding;
+
+  &.active-page {
+    display:block;
+  }
+}
+
+.page-nav {
+  background: $MenuBackgroundColor;
+}
+
+.menu {
+  list-style:none;
+  margin:0;
+  overflow:hidden;
+  padding:0;
+
+  .menu-item {;
+    border-right:1px solid $MenuDividerColor;
+    float:left;
+
+    a {
+      color: $MenuTextColor;
+      display:block;
+      padding: $MenuItemPadding;
+      text-decoration: none;
+    }
+  }
+}
+
+.page-title {
+  margin:$PageTitlePadding;
+}

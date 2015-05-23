@@ -14,7 +14,7 @@
   },
   "homepage": "https://github.com/JacoKoster/backbone-boilerplate",
   "devDependencies": {
-    "browserify": "^9.0.6",
+    "browserify": "^10.2.1",
     "del": "^1.1.1",
     "express": "^4.12.3",
     "gulp": "^3.8.11",
