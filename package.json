@@ -1,8 +1,8 @@
 {
-  "name": "example-project",
-  "version": "1.0.0",
-  "description": "This is an example file",
-  "main": "gulpfile.js",
+  "name": "Backbone BoilerPlate",
+  "version": "0.1.0",
+  "description": "A boilerplate for setting up an enterprise application with Backbone",
+  "main": "main.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/JacoKoster/backbone-boilerplate.git"
