@@ -1,5 +1,5 @@
 {
-  "name": "Backbone BoilerPlate",
+  "name": "backbone-boilerplate",
   "version": "0.1.0",
   "description": "A boilerplate for setting up an enterprise application with Backbone",
   "main": "main.js",
